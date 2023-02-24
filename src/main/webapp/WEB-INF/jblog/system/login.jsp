@@ -2,19 +2,19 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container mt-3">
-    <form>
+    <form action="/auth/securitylogin" method="post">
         <div class="mb-3">
             <label for="username">
                 <spring:message code="user.login.form.username"/>
             </label>
-            <input type="text" class="form-control" id="username"
+            <input type="text" class="form-control" name="username"
                    placeholder="Enter username">
         </div>
         <div class="mb-3">
             <label for="password">
                 <spring:message code="user.login.form.password"/>
             </label>
-            <input type="password" class="form-control" id="password"
+            <input type="password" class="form-control" name="password"
                    placeholder="Enter password">
         </div>
 
@@ -24,5 +24,4 @@
     </form>
 
 </div>
-<script src="/js/login.js"></script>
 <%@ include file="../layout/footer.jsp" %>
