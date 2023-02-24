@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -32,11 +31,4 @@ public class JBlogWebMvcConfiguration implements WebMvcConfigurer {
         return new ModelMapper();
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(
-                new AuthenticateInterceptor()).
-                addPathPatterns("/","/post/**"); //세션에 정보가 존재한 사람만 접근가능(인증)
-
-    }
 }
