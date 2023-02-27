@@ -19,32 +19,32 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() { //계정이 만료되지 않았는지 반환
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() { //계정이 잠겨있는지 반환
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() { //비밀번호가 만료되지 않았는지 반환
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() { // 계정이 활성화되었는지 반환
-        return false;
+        return true;
     }
 
     @Override

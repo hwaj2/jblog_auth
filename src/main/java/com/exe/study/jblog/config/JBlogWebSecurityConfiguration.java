@@ -15,6 +15,7 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    // 사용자가 입력한 username으로 User객체를 검색하고 password를 비교
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
