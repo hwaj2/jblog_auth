@@ -3,10 +3,12 @@ package com.exe.study.jblog.controller;
 import com.exe.study.jblog.domain.User;
 import com.exe.study.jblog.dto.ResponseDTO;
 import com.exe.study.jblog.dto.UserDTO;
+import com.exe.study.jblog.security.UserDetailsImpl;
 import com.exe.study.jblog.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.validation.BindingResult;
@@ -41,7 +43,7 @@ public class UserController {
     }
 
 
-    // 회원가입(dto적용)
+    // 회원가입
     @PostMapping("/auth/insertUser")
     public @ResponseBody ResponseDTO<?> insertUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
     /*
@@ -65,6 +67,19 @@ public class UserController {
     public @ResponseBody User getUser(@PathVariable int id){
         User findUser =  userService.getUser(id);
         return findUser;
+    }
+
+    // 회원 정보수정 페이지
+    @GetMapping("/user/updateUser")
+    public String updateUser(){
+        return "user/updateUser";
+    }
+
+    // 회원 정보수정
+    @PutMapping("/user")
+    public @ResponseBody ResponseDTO<?> updateUser(@RequestBody User user, @AuthenticationPrincipal UserDetailsImpl principal){
+        principal.setUser(userService.updateUser(user)); //회원정보 수정 + 세션갱신
+        return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() + "수정이 완료되었습니다.");
     }
 
 

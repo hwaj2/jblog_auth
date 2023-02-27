@@ -1,12 +1,15 @@
 package com.exe.study.jblog.security;
 
 import com.exe.study.jblog.domain.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter @Setter
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID= 1L;
