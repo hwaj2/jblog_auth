@@ -7,15 +7,13 @@
             <label for="username">
                 <spring:message code="user.login.form.username"/>
             </label>
-            <input type="text" class="form-control" name="username"
-                   placeholder="Enter username">
+            <input type="text" class="form-control" name="username" placeholder="Enter username">
         </div>
         <div class="mb-3">
             <label for="password">
                 <spring:message code="user.login.form.password"/>
             </label>
-            <input type="password" class="form-control" name="password"
-                   placeholder="Enter password">
+            <input type="password" class="form-control" name="password" placeholder="Enter password">
         </div>
 
         <button id="btn-login" class="btn btn-secondary">

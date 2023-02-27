@@ -4,6 +4,7 @@ import com.exe.study.jblog.domain.Post;
 import com.exe.study.jblog.domain.User;
 import com.exe.study.jblog.dto.PostDTO;
 import com.exe.study.jblog.dto.ResponseDTO;
+import com.exe.study.jblog.security.UserDetailsImpl;
 import com.exe.study.jblog.service.PostService;
 import com.exe.study.jblog.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,10 +54,10 @@ public class PostController {
 
 
     // 포스트 등록
-    @PostMapping("/post1") // 등록될때 연관된 회원 엔티티가 할당되야하므로 > 세션으로부터 사용자정보확인
-    public @ResponseBody ResponseDTO<?> insertPost1(@RequestBody Post post, HttpSession httpSession){
-        User principal = (User) httpSession.getAttribute("principal");
-        post.setUser(principal);
+    @PostMapping("/post1") // 등록될때 연관된 회원 엔티티가 할당, httpSession이 아닌 @AuthenticationPrincipal통해서 사용자 정보 가져오기
+    public @ResponseBody ResponseDTO<?> insertPost1(@RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetailsImpl principal){
+        Post post =  modelMapper.map(postDTO, Post.class); // dto > entity변환
+        post.setUser(principal.getUser());
         post.setCnt(0);
         postService.insertPost(post);
         return new ResponseDTO<>(HttpStatus.OK.value(), "성공적으로 포스트가 등록되었습니다.");
