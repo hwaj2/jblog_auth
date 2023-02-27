@@ -19,7 +19,9 @@ public class UserDTO {
     @Size(min = 1, max = 20, message = "username은 한 글자 이상 20자 미만으로 입력하세요.")
     private String username;
 
-    // 비번은 수정하지 않는 것으로 한다.
+    @NotNull(message = "Password 파라미터가 전달되지 않았습니다.")
+    @NotBlank(message = "Password는 필수 입력 항목입니다.")
+    @Size(min = 1, max = 20, message = "Password는 한 글자 이상 20자 미만으로 입력하세요.")
     private String password;
 
     @NotNull(message = "email파라미터가 전달되지 않았습니다.")
