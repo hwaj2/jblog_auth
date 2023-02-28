@@ -1,6 +1,6 @@
 package com.exe.study.jblog.controller;
 
-import com.exe.study.jblog.domain.RoleType;
+import com.exe.study.jblog.constant.RoleType;
 import com.exe.study.jblog.domain.User;
 import com.exe.study.jblog.exception.JBlogException;
 import com.exe.study.jblog.persistence.UserRepository;

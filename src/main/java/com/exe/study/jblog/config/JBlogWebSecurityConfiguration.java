@@ -4,6 +4,7 @@ import com.exe.study.jblog.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,6 +24,12 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
     // 사용자가 입력한 username으로 User객체를 검색하고 password를 비교
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -33,7 +40,8 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     protected void configure(HttpSecurity http) throws Exception {
         //인증없이 접근을 허용하는 경로
         http.authorizeHttpRequests()
-                .antMatchers("/webjars/**", "/js/**", "image/**", "/","/auth/**").permitAll();
+                .antMatchers("/webjars/**", "/js/**", "/image/**",
+                        "/","/auth/**", "/oauth/**").permitAll();
         //나머지 경로는 인증이 필요
         http.authorizeHttpRequests().anyRequest().authenticated();
         // CSRF 토큰을 받지 않음
