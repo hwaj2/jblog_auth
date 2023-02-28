@@ -1,7 +1,8 @@
 package com.exe.study.jblog.service;
 
 
-import com.exe.study.jblog.domain.RoleType;
+import com.exe.study.jblog.constant.OAuthType;
+import com.exe.study.jblog.constant.RoleType;
 import com.exe.study.jblog.domain.User;
 import com.exe.study.jblog.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserService {
     public void insertUser(User user) {
         user.setRole(RoleType.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword())); //비밀번호 암호화 설정 추가
+        if(user.getOauth() == null){
+            user.setOauth(OAuthType.BLOG);
+        }
         userRepository.save(user);
     }
 

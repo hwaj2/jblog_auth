@@ -1,5 +1,7 @@
 package com.exe.study.jblog.domain;
 
+import com.exe.study.jblog.constant.OAuthType;
+import com.exe.study.jblog.constant.RoleType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
@@ -29,6 +31,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    @Enumerated(EnumType.STRING)
+    private OAuthType oauth;
 
     @CreationTimestamp //현재 시간이 기본값으로 등록되도록 설정
     private Timestamp createDate;

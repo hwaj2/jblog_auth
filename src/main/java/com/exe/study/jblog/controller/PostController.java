@@ -54,7 +54,7 @@ public class PostController {
 
 
     // 포스트 등록
-    @PostMapping("/post1") // 등록될때 연관된 회원 엔티티가 할당, httpSession이 아닌 @AuthenticationPrincipal통해서 사용자 정보 가져오기
+    @PostMapping("/post") // 등록될때 연관된 회원 엔티티가 할당, httpSession이 아닌 @AuthenticationPrincipal통해서 사용자 정보 가져오기
     public @ResponseBody ResponseDTO<?> insertPost1(@RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetailsImpl principal){
         Post post =  modelMapper.map(postDTO, Post.class); // dto > entity변환
         post.setUser(principal.getUser());
@@ -64,7 +64,7 @@ public class PostController {
     }
 
     // 포스트 등록
-    @PostMapping("/post")
+    @PostMapping("/post1")
     public @ResponseBody ResponseDTO<?> insertPost(@Valid @RequestBody PostDTO postDTO,
                                                    BindingResult bindingResult, HttpSession httpSession){
         Post post = modelMapper.map(postDTO, Post.class); //dto > entity로 변환
@@ -76,8 +76,6 @@ public class PostController {
         postService.insertPost(post);
         return new ResponseDTO<>(HttpStatus.OK.value(), "성공적으로 포스트가 등록되었습니다.");
     }
-
-
 
 
     // 포스트 조회

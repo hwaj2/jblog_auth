@@ -1,5 +1,6 @@
 package com.exe.study.jblog.controller;
 
+import com.exe.study.jblog.constant.OAuthType;
 import com.exe.study.jblog.domain.User;
 import com.exe.study.jblog.dto.ResponseDTO;
 import com.exe.study.jblog.dto.UserDTO;
@@ -7,17 +8,15 @@ import com.exe.study.jblog.security.UserDetailsImpl;
 import com.exe.study.jblog.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @Controller
@@ -29,6 +28,8 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Value("${kakao.default.password}")
+    private String kakaoPassword;
 
     // 로그인
     @GetMapping("/auth/login")
@@ -78,6 +79,10 @@ public class UserController {
     // 회원 정보수정
     @PutMapping("/user")
     public @ResponseBody ResponseDTO<?> updateUser(@RequestBody User user, @AuthenticationPrincipal UserDetailsImpl principal){
+        // 수정전에 카카오 회원인지 확인후 비밀번호 고정하기
+        if(principal.getUser().getOauth().equals(OAuthType.KAKAO)){
+            user.setPassword(kakaoPassword);
+        }
         principal.setUser(userService.updateUser(user)); //회원정보 수정 + 세션갱신
         return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() + "수정이 완료되었습니다.");
     }
