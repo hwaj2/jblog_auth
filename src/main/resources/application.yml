@@ -7,7 +7,7 @@ server:
       charset: UTF-8
 
 # 뷰 리졸버 설정
-spring:
+spring::
   mvc:
     view:
       prefix: /WEB-INF/jblog/
@@ -37,4 +37,23 @@ spring:
     properties:
       hibernate.format_sql: true
 
+  #  구글 로그인 설정
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 104242137738-fqqajh0r2jkrc76ein0fpe30dhbba9a5.apps.googleusercontent.com
+            client-secret: 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
+            scope: email, profile
 
+
+# 카카오임시 비밀번호
+kakao:
+  default:
+    password: kakao123
+
+# 구글 회원가입시 사용할 임시 비밀번호
+google:
+  default:
+    password: google123
