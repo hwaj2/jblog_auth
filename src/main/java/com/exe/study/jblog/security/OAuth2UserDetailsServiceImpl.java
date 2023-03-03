@@ -4,6 +4,7 @@ import com.exe.study.jblog.constant.OAuthType;
 import com.exe.study.jblog.constant.RoleType;
 import com.exe.study.jblog.domain.User;
 import com.exe.study.jblog.persistence.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,18 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+/*
+
+OAuth2 client 라이브러리
+    OAuth 프로토콜을 사용하는(구글,카카오,네이버,페이스북,깃허브등등) 방식을 편리하게 사용할수 있도록 제공해주는 라이브러리로(단,카카오,네이버는 별도 provider생성해야함)
+    OAuth2 client 라이브러리가 제공되는 서비스 플랫폼에 한해서 약속된규칙에 의거하여 자동으로 컨드롤러 생성해 정보를 받아와줌
+    고정된uri ) 프론트에서 로그인요청시 "/oauth2/authorization/{이름}", 등록 redirect-uri는 "/login/oauth2/code/{이름}"  꼭기억!!
+    OAuth2 client를 지원하는 구글/페이스북 : Map<String, Object>형태로 반환
+    OAuth2 client를 지원하지않는 네이버/카카오 : json형태로 반환
+
+*/
+
 
 @Service
 public class OAuth2UserDetailsServiceImpl extends DefaultOAuth2UserService {
@@ -31,6 +44,8 @@ public class OAuth2UserDetailsServiceImpl extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest)
             throws OAuth2AuthenticationException {
+
+        System.out.println(" 구글 api 연동 성공!!!!!!!");
 
         // AccessToken이 저장된 userRequest를 이용하여 구글로부터 회원 정보를 받아옴
         OAuth2User oauth2User = super.loadUser(userRequest);

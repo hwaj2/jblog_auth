@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+// Authentication 객체에는 "UserDatails" / "OAuth2User" 타입의 2개의종류의 객체가 존재
+// 컨트롤러에서 필요한 Authentication객체를 가져올때 일반 로그인이든 OAuth2 로그인이든 상관없이 동일한 객체를 가져올수 있게 하기 위해서 함께 상속
 @Getter @Setter
 public class UserDetailsImpl implements UserDetails, OAuth2User {
 

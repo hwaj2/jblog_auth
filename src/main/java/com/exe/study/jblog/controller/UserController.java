@@ -30,6 +30,8 @@ public class UserController {
 
     @Value("${kakao.default.password}")
     private String kakaoPassword;
+    @Value("${google.default.password}")
+    private String GooglePassword;
 
     // 로그인
     @GetMapping("/auth/login")
@@ -79,11 +81,15 @@ public class UserController {
     // 회원 정보수정
     @PutMapping("/user")
     public @ResponseBody ResponseDTO<?> updateUser(@RequestBody User user, @AuthenticationPrincipal UserDetailsImpl principal){
-        // 수정전에 카카오 회원인지 확인후 비밀번호 고정하기
+
+        // 수정전에 카카오,구글 회원인지 확인후 비밀번호 고정하기
         if(principal.getUser().getOauth().equals(OAuthType.KAKAO)){
             user.setPassword(kakaoPassword);
+        }else if(principal.getUser().getOauth().equals(OAuthType.GOOGLE)){
+            user.setPassword(GooglePassword);
         }
-        principal.setUser(userService.updateUser(user)); //회원정보 수정 + 세션갱신
+
+        principal.setUser(userService.updateUser(user)); //회원정보 수정 + *세션갱신
         return new ResponseDTO<>(HttpStatus.OK.value(), user.getUsername() + "수정이 완료되었습니다.");
     }
 

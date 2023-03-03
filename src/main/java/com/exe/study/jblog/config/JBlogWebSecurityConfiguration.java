@@ -2,6 +2,7 @@ package com.exe.study.jblog.config;
 
 import com.exe.study.jblog.security.OAuth2UserDetailsServiceImpl;
 import com.exe.study.jblog.security.UserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -18,10 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService; // 일반사용자
 
     @Autowired
-    private OAuth2UserDetailsServiceImpl oAuth2UserDetailsService; //구글인증 서비스 클래스
+    private OAuth2UserDetailsServiceImpl oAuth2UserDetailsService; //oAuth2 사용자
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -47,19 +47,23 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
         http.authorizeHttpRequests().anyRequest().authenticated();
         // CSRF 토큰을 받지 않음
         http.csrf().disable();
-        // 사용자 정의 로그인 화면 제공
-        http.formLogin().loginPage("/auth/login");
-        // 로그인 요청 URI를 변경
-        http.formLogin().loginProcessingUrl("/auth/securitylogin");
+
+        // 일반사용자 로그인
+        http.formLogin()
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/auth/securitylogin");
+
+        // OAuth2(소셜) 로그인
+        http.oauth2Login()
+                .userInfoEndpoint() //사용자 정보를 가져옴
+                .userService(oAuth2UserDetailsService); //가져온 사용자 정보를 이용 후처리
+
+
+
         // 로그아웃
         http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/");
 
-        // http.oauth2Client();
 
-        // 구글 로그인 설정
-        http.oauth2Login() //OAuth2 로그인 설정
-                .userInfoEndpoint() //OAuth2로 사용자 정보를 가져옴
-                .userService(oAuth2UserDetailsService); //가져온 사용자 정보를 이용해 인증실행
     }
 
 

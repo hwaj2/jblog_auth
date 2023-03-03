@@ -38,6 +38,7 @@ spring::
       hibernate.format_sql: true
 
   #  구글 로그인 설정
+  #  Oauth2-Client : 사용시에는 redirect url의 (/login/oauth2/code/{소셜}) 고정 또한, 프론트 로그인요청시에도 url고정(/oauth2/authorization/{소셜})
   security:
     oauth2:
       client:
@@ -45,7 +46,7 @@ spring::
           google:
             client-id: 104242137738-fqqajh0r2jkrc76ein0fpe30dhbba9a5.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri : http://localhost:8080/oauth2/code/google
+            redirect-uri : http://localhost:8080/login/oauth2/code/google
             scope: email, profile
 
 
