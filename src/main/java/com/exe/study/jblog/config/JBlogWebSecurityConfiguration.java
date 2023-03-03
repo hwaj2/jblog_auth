@@ -1,5 +1,6 @@
 package com.exe.study.jblog.config;
 
+import com.exe.study.jblog.security.OAuth2UserDetailsServiceImpl;
 import com.exe.study.jblog.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,9 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private OAuth2UserDetailsServiceImpl oAuth2UserDetailsService; //구글인증 서비스 클래스
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -28,6 +32,7 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 
 
     // 사용자가 입력한 username으로 User객체를 검색하고 password를 비교
@@ -53,8 +58,12 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
         // 로그아웃
         http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/");
 
+        // http.oauth2Client();
+
         // 구글 로그인 설정
-        http.oauth2Client();
+        http.oauth2Login() //OAuth2 로그인 설정
+                .userInfoEndpoint() //OAuth2로 사용자 정보를 가져옴
+                .userService(oAuth2UserDetailsService); //가져온 사용자 정보를 이용해 인증실행
     }
 
 
