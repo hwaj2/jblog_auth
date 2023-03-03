@@ -23,22 +23,18 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Autowired
     private OAuth2UserDetailsServiceImpl oAuth2UserDetailsService; //구글인증 서비스 클래스
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-
-
     // 사용자가 입력한 username으로 User객체를 검색하고 password를 비교
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); //로그인시에 암호화된 비밀번호로 인증처리하도록 추가
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder); //로그인시에 암호화된 비밀번호로 인증처리하도록 추가
     }
 
     @Override
